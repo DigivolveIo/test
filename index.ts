@@ -53,25 +53,4 @@ let delayedCb = (d: sliderObj): void => {
 // });
 
 // #4
-// If you don't do something like this (and there are other variations on this same idea), then each of the timer handler functions will share the same variable "i"
-
-var WORDS: string[] = ['hello', 'my', 'name', 'is', 'laika']
-
-let condition = (i: number): void => {
-    setTimeout(function () {
-        if (!WORDS[i]) throw Error('Empty word!')
-        console.log(WORDS[i])
-    }, i * 10)
-}
-
-let value = (): void => {
-    try {
-        for (var i = 0; i <= WORDS.length; ++i) {
-            condition(i)
-        }
-    } catch (e) {
-        console.log('Error: ' + e)
-    }
-}
-
-value()
+// var i = 0; to let i = 0; If you don't do something like this, then each of the timer handler functions will share the same variable "i"
