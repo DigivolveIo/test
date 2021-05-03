@@ -1,105 +1,125 @@
 // Accepts any number of parameters as command line arguments.
 // Each parameter should be of the form <number><string> where    and <string> is a lower case string composed of the characters from a to z with length of at least 1.
 
-// TypeScript Type: Alphabet
+// typeScript type: alphabet
 type Alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
-//
+// this shifts the letters
 const dataIteration = (text: string, amount: number) => {
-    // Alphabet
     const alphabet: Alphabet = 'abcdefghijklmnopqrstuvwxyz'
-
-    // Encoded Text
     let encodedText: string = ''
-
     let i: number = 0
+
     while (i < text.length) {
-        // Valid Alphabet Characters
+        // valid alphabet characters
         if (alphabet.indexOf(text[i]) !== -1) {
-            // Find Alphabet Index
+            // find alphabet index
             const alphabetIndex: number = alphabet.indexOf(
                 text[i].toLowerCase()
             )
-
-            // Alphabet Index Is In Alphabet Range
+            // alphabet index is in alphabet range
             if (alphabet[alphabetIndex + amount]) {
-                // Append To String
+                // append to string
                 encodedText += alphabet[alphabetIndex + amount]
             }
-            // Alphabet Index Out Of Range (Adjust Alphabet By 26 Characters)
+            // alphabet index out of range (adjust alphabet by 26 characters)
             else {
-                // Append To String
+                // append to string
                 encodedText += alphabet[alphabetIndex + amount - 26]
             }
         }
-        // Special Characters
+        // special characters
         else {
-            // Append To String
+            // append to string
             encodedText += text[i]
         }
-
-        // Increase I
+        // increase i
         i++
     }
-    console.log('Encoded :', encodedText)
+    // console.log('Encoded :', encodedText)
     return encodedText
 }
 
-const charPositionsModifier = (...args: string[]): string | void => {
+interface TextNumObj {
+    text: string
+    amount: number
+}
+
+//this gets the text and the number
+let getTextAndNumber = (el: string): TextNumObj => {
     let amount: number
     let text: string
+
+    // get number
+    amount = Number(el.charAt(0).match(/[0-9]/))
+    // adjust shift (over 26 characters)
+    if (amount > 26) {
+        // assign remainder as shift
+        amount = amount % 26
+    }
+    //remove first letter
+    text = el.substring(1)
+    return { text, amount }
+}
+
+const charPositionsModifier = (...args: string[]): string | void => {
     let containsWhiteSpace: boolean = false
     let stringArray = new Array()
-    let result: string[] = []
+    let tempString: string
+    let result: string
+    let firstIteration: boolean = true
+    let textNumObj: TextNumObj
 
     args.map((el) => {
-        // remove spaces
-        // Find if there is a space than split the variables space
-        if (el.indexOf(' ') >= 0) {
-            containsWhiteSpace = true
-            stringArray = el.split(/(\s+)/)
+        // Make sure it's not just space
+        if (el.trim().length) {
+            // PATH 1
+            // find if there is a whitespace (more than one word)
+            if (el.indexOf(' ') >= 0) {
+                containsWhiteSpace = true
+                // split into an array
+                stringArray = el.split(/(\s+)/)
 
-            for (let i = 0; i < stringArray.length; i++) {
-                //ignore spaces
-                if (stringArray[i] != ' ') {
-                    // validate if number is 0 to 9
-                    if (stringArray[i].charAt(0).match(/[0-9]/)) {
-                        amount = Number(stringArray[i].charAt(0).match(/[0-9]/))
-                        console.log('Amount: ', amount)
-                        console.log('stringArray: ', stringArray[i])
+                for (let i = 0; i < stringArray.length; i++) {
+                    //ignore spaces
+                    if (stringArray[i] != ' ') {
+                        // validate if first number is 0 to 9
+                        if (stringArray[i].charAt(0).match(/[0-9]/)) {
+                            // get the text and number
+                            textNumObj = getTextAndNumber(stringArray[i])
+                            // iterate over data
+                            tempString = dataIteration(
+                                textNumObj.text,
+                                textNumObj.amount
+                            )
 
-                        // Adjust Shift (Over 26 Characters)
-                        if (amount > 26) {
-                            // Assign Remainder As Shift
-                            amount = amount % 26
+                            // verify if it's the first iteration
+                            if (firstIteration) {
+                                // assign the first word
+                                result = tempString
+                                // set first iteration to false
+                                firstIteration = false
+                            } else {
+                                // append to existing string
+                                result += ` ${tempString}`
+                            }
                         }
-
-                        //Remove first letter
-                        text = stringArray[i].substring(1)
-                        console.log('text: ', text)
-
-                        // Iterate Over Data
-                        dataIteration(stringArray[i], amount)
                     }
                 }
-            }
-        }
-
-        // validate if number is 0 to 9
-        if (el.charAt(0).match(/[0-9]/)) {
-            amount = Number(el.charAt(0).match(/[0-9]/))
-
-            // Adjust Shift (Over 26 Characters)
-            if (amount > 26) {
-                // Assign Remainder As Shift
-                amount = amount % 26
+                // return this
+                console.log(result)
             }
 
-            //Remove first letter
-            text = el.substring(1)
-
-            // Iterate Over Data
-            console.log('Result', dataIteration(text, amount))
+            // PATH 2
+            // validate if first number is 0 to 9 and does not contain white spaces
+            if (el.charAt(0).match(/[0-9]/) && !containsWhiteSpace) {
+                // get the text and number
+                textNumObj = getTextAndNumber(el)
+                // iterate over data
+                result = dataIteration(textNumObj.text, textNumObj.amount)
+                // return this
+                console.log(result)
+            }
         }
     })
 }
@@ -107,11 +127,24 @@ const charPositionsModifier = (...args: string[]): string | void => {
 const exampleOne = '0apple'
 const exampleTwo = '1lzru'
 const exampleThree = '8hello 5zoo'
-const exampleFour = 'p0986'
+const exampleFour = '8hello 5zoo 5zoo'
+const exampleFive = 'p0986'
+const exampleSix = ' '
 
 charPositionsModifier(exampleOne)
 charPositionsModifier(exampleTwo)
 charPositionsModifier(exampleThree)
-charPositionsModifier(exampleFour)
-// charPositionsModifier(exampleOne, exampleTwo, exampleThree)
-// charPositionsModifier(exampleOne, exampleTwo, exampleThree, exampleFour)
+// tests two spaces
+//charPositionsModifier(exampleFour)
+// tests letter first
+//charPositionsModifier(exampleFive)
+// tests empty space
+//charPositionsModifier(exampleSix)
+// charPositionsModifier(
+//     exampleOne,
+//     exampleTwo,
+//     exampleThree,
+//     exampleFour,
+//     exampleFive,
+//     exampleSix
+// )
