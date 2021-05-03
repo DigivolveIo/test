@@ -1,5 +1,5 @@
-// Accepts any number of parameters as command line arguments.
-// Each parameter should be of the form <number><string> where    and <string> is a lower case string composed of the characters from a to z with length of at least 1.
+// Hope you will enjoy reading this code
+// Stay safe!
 
 // typeScript type: alphabet
 type Alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -64,10 +64,6 @@ let getTextAndNumber = (el: string): TextNumObj => {
 
 const charPositionsModifier = (...args: string[]): string | void => {
     let containsWhiteSpace: boolean = false
-    let stringArray = new Array()
-    let tempString: string
-    let result: string
-    let firstIteration: boolean = true
     let textNumObj: TextNumObj
 
     args.map((el) => {
@@ -77,6 +73,11 @@ const charPositionsModifier = (...args: string[]): string | void => {
             // find if there is a whitespace (more than one word)
             if (el.indexOf(' ') >= 0) {
                 containsWhiteSpace = true
+                let pathTwoResult: string = ''
+                let firstIteration: boolean = true
+                let tempString: string
+                let stringArray = new Array()
+
                 // split into an array
                 stringArray = el.split(/(\s+)/)
 
@@ -96,29 +97,33 @@ const charPositionsModifier = (...args: string[]): string | void => {
                             // verify if it's the first iteration
                             if (firstIteration) {
                                 // assign the first word
-                                result = tempString
+                                pathTwoResult = tempString
                                 // set first iteration to false
                                 firstIteration = false
                             } else {
                                 // append to existing string
-                                result += ` ${tempString}`
+                                pathTwoResult += ` ${tempString}`
                             }
                         }
                     }
                 }
                 // return this
-                console.log(result)
+                console.log(pathTwoResult)
             }
 
             // PATH 2
             // validate if first number is 0 to 9 and does not contain white spaces
             if (el.charAt(0).match(/[0-9]/) && !containsWhiteSpace) {
+                let pathOneResult: string
                 // get the text and number
                 textNumObj = getTextAndNumber(el)
                 // iterate over data
-                result = dataIteration(textNumObj.text, textNumObj.amount)
+                pathOneResult = dataIteration(
+                    textNumObj.text,
+                    textNumObj.amount
+                )
                 // return this
-                console.log(result)
+                console.log(pathOneResult)
             }
         }
     })
@@ -134,12 +139,13 @@ const exampleSix = ' '
 charPositionsModifier(exampleOne)
 charPositionsModifier(exampleTwo)
 charPositionsModifier(exampleThree)
-// tests two spaces
-//charPositionsModifier(exampleFour)
-// tests letter first
-//charPositionsModifier(exampleFive)
-// tests empty space
-//charPositionsModifier(exampleSix)
+// // tests two spaces
+// charPositionsModifier(exampleFour)
+// // tests letter first
+// charPositionsModifier(exampleFive)
+// // tests empty space
+// charPositionsModifier(exampleSix)
+// // tests multiple param
 // charPositionsModifier(
 //     exampleOne,
 //     exampleTwo,
