@@ -63,68 +63,47 @@ let getTextAndNumber = (el: string): TextNumObj => {
 }
 
 const charPositionsModifier = (...args: string[]): string | void => {
-    let containsWhiteSpace: boolean = false
     let textNumObj: TextNumObj
 
     args.map((el) => {
         // Make sure it's not just space
         if (el.trim().length) {
-            // PATH 1
-            // find if there is a whitespace (more than one word)
-            if (el.indexOf(' ') >= 0) {
-                containsWhiteSpace = true
-                let pathTwoResult: string = ''
-                let firstIteration: boolean = true
-                let tempString: string
-                let stringArray = new Array()
+            let pathTwoResult: string = ''
+            let firstIteration: boolean = true
+            let tempString: string
+            let stringArray = new Array()
 
-                // split into an array
-                stringArray = el.split(/(\s+)/)
+            // split into an array
+            stringArray = el.split(/(\s+)/)
 
-                for (let i = 0; i < stringArray.length; i++) {
-                    //ignore spaces
-                    if (stringArray[i] != ' ') {
-                        // validate if first number is 0 to 9
-                        if (stringArray[i].charAt(0).match(/[0-9]/)) {
-                            // get the text and number
-                            textNumObj = getTextAndNumber(stringArray[i])
-                            // iterate over data
-                            tempString = dataIteration(
-                                textNumObj.text,
-                                textNumObj.amount
-                            )
+            for (let i = 0; i < stringArray.length; i++) {
+                //ignore spaces
+                if (stringArray[i] != ' ') {
+                    // validate if first number is 0 to 9
+                    if (stringArray[i].charAt(0).match(/[0-9]/)) {
+                        // get the text and number
+                        textNumObj = getTextAndNumber(stringArray[i])
+                        // iterate over data
+                        tempString = dataIteration(
+                            textNumObj.text,
+                            textNumObj.amount
+                        )
 
-                            // verify if it's the first iteration
-                            if (firstIteration) {
-                                // assign the first word
-                                pathTwoResult = tempString
-                                // set first iteration to false
-                                firstIteration = false
-                            } else {
-                                // append to existing string
-                                pathTwoResult += ` ${tempString}`
-                            }
+                        // verify if it's the first iteration
+                        if (firstIteration) {
+                            // assign the first word
+                            pathTwoResult = tempString
+                            // set first iteration to false
+                            firstIteration = false
+                        } else {
+                            // append to existing string
+                            pathTwoResult += ` ${tempString}`
                         }
                     }
                 }
-                // return this
-                console.log(pathTwoResult)
             }
-
-            // PATH 2
-            // validate if first number is 0 to 9 and does not contain white spaces
-            if (el.charAt(0).match(/[0-9]/) && !containsWhiteSpace) {
-                let pathOneResult: string
-                // get the text and number
-                textNumObj = getTextAndNumber(el)
-                // iterate over data
-                pathOneResult = dataIteration(
-                    textNumObj.text,
-                    textNumObj.amount
-                )
-                // return this
-                console.log(pathOneResult)
-            }
+            // return this
+            console.log(pathTwoResult)
         }
     })
 }
