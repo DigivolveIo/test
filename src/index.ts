@@ -4,8 +4,13 @@
 // typeScript type: alphabet
 type Alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
+interface TextNumObj {
+    text: string
+    amount: number
+}
+
 // this shifts the letters
-const dataIteration = (text: string, amount: number) => {
+const dataIteration = (text: string, amount: number): string => {
     const alphabet: Alphabet = 'abcdefghijklmnopqrstuvwxyz'
     let encodedText: string = ''
     let i: number = 0
@@ -40,13 +45,8 @@ const dataIteration = (text: string, amount: number) => {
     return encodedText
 }
 
-interface TextNumObj {
-    text: string
-    amount: number
-}
-
 //this gets the text and the number
-let getTextAndNumber = (el: string): TextNumObj => {
+const getTextAndNumber = (el: string): TextNumObj => {
     let amount: number
     let text: string
 
@@ -62,7 +62,7 @@ let getTextAndNumber = (el: string): TextNumObj => {
     return { text, amount }
 }
 
-const charPositionsModifier = (...args: string[]): string | void => {
+const charPositionsModifier = (...args: string[]): void => {
     let textNumObj: TextNumObj
 
     args.map((el) => {
