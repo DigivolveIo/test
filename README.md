@@ -9,11 +9,9 @@ To run the dev env:
 `npm run dev`
 
 To create a production build:
-
 `npm run build`
 
-The procution startup script
-
+The production startup script:
 `npm start`
 
 ## Typescript
